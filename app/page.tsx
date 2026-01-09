@@ -41,12 +41,12 @@ export default function Home() {
               <p className="text-3xl font-bold text-green-500">2</p>
             </div>
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-6">
-              <p className="text-amber-400 text-sm font-medium mb-1">Done</p>
+              <p className="text-amber-400 text-sm font-medium mb-1">Pending</p>
               {/*  edit with real data later */}
               <p className="text-3xl font-bold text-amber-500">2</p>
             </div>
             <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-6">
-              <p className="text-red-400 text-sm font-medium mb-1">Done</p>
+              <p className="text-red-400 text-sm font-medium mb-1">Not Done</p>
               {/*  edit with real data later */}
               <p className="text-3xl font-bold text-red-500">2</p>
             </div>
@@ -125,6 +125,163 @@ export default function Home() {
             >
               <path d="m6 9 6 6 6-6" />
             </svg>
+          </button>
+        </div>
+        <div className="mb-6 bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+          <p className="text-blue-400 text-sm">
+            {" "}
+            <strong className="text-xl text-red-500">Note: </strong>Drag and
+            drop files directly onto any assignment row to add them. Once you've
+            added files, click the "Submit All" button to submit all files at
+            once.{" "}
+          </p>
+        </div>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/50 overflow-hidden mb-6">
+          <div className="relative w-full overflow-auto">
+            <table className="w-full caption-bottom text-sm">
+              <thead className="[&_tr]:border-b">
+                <tr className="border-b transition-colors data-[state=selected]:bg-muted border-slate-700 hover:bg-slate-700/50">
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Name
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Description
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Created
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Due Date
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Status
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Type
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Files
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="[&_tr:last-child]:border-0">
+                <tr className="border-b data-[state=selected]:bg-muted border-slate-700 transition-colors hover:bg-slate-700/30">
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                    <div className="flex flex-col gap-2 min-w-[200px]">
+                      <div className="flex items-center gap-2 text-slate-500 text-xs">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          className="lucide lucide-upload-icon lucide-upload"
+                        >
+                          <path d="M12 3v12" />
+                          <path d="m17 8-5-5-5 5" />
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        </svg>
+                        <span>Drop files here</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    <button
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                      type="button"
+                      aria-haspopup="dialog"
+                      aria-expande="false"
+                      aria-controls="radix-_r_2_"
+                      data-state="closed"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-trash2-icon lucide-trash-2"
+                      >
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                        <path d="M3 6h18" />
+                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/20">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-cloud-download-icon lucide-cloud-download"
+            >
+              <path d="M12 13v8l-4-4" />
+              <path d="m12 21 4-4" />
+              <path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284" />
+            </svg>{" "}
+            Get Assignments
+          </button>
+          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/20">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-send-icon lucide-send"
+            >
+              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+              <path d="m21.854 2.147-10.94 10.939" />
+            </svg>
+            Submit All
           </button>
         </div>
       </div>
