@@ -1,8 +1,28 @@
+"use client";
+
 import Image from "next/image";
 
+import React from "react";
+
 export default function Home() {
+  const URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const executeWorkflow = async () => {
+    try {
+      const response = await fetch(`${URL}/trigger-workflow`);
+      if (response.ok) {
+        console.log("Workflow executed");
+        console.log(response);
+      } else {
+        console.log("Workflow error");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screenBLIC_N8N_URL bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-8">
           <div className="flex items-center justify-between">
@@ -61,9 +81,9 @@ export default function Home() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400"
             >
               <path d="m21 21-4.34-4.34" />
@@ -92,9 +112,9 @@ export default function Home() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-chevron-down h-4 w-4 opacity-50"
             >
               <path d="m6 9 6 6 6-6" />
@@ -118,9 +138,9 @@ export default function Home() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-chevron-down h-4 w-4 opacity-50"
             >
               <path d="m6 9 6 6 6-6" />
@@ -197,9 +217,9 @@ export default function Home() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           className="lucide lucide-upload-icon lucide-upload"
                         >
                           <path d="M12 3v12" />
@@ -215,7 +235,7 @@ export default function Home() {
                       className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/10"
                       type="button"
                       aria-haspopup="dialog"
-                      aria-expande="false"
+                      aria-expanded="false"
                       aria-controls="radix-_r_2_"
                       data-state="closed"
                     >
@@ -226,10 +246,10 @@ export default function Home() {
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-trash2-icon lucide-trash-2"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-trash2-icon lucide-trash-2"
                       >
                         <path d="M10 11v6" />
                         <path d="M14 11v6" />
@@ -246,7 +266,10 @@ export default function Home() {
         </div>
 
         <div className="flex items-center justify-between">
-          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/20">
+          <button
+            onClick={executeWorkflow}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/20"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -254,10 +277,10 @@ export default function Home() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-cloud-download-icon lucide-cloud-download"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-cloud-download-icon lucide-cloud-download"
             >
               <path d="M12 13v8l-4-4" />
               <path d="m12 21 4-4" />
@@ -273,10 +296,10 @@ export default function Home() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-send-icon lucide-send"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-send-icon lucide-send"
             >
               <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
               <path d="m21.854 2.147-10.94 10.939" />
