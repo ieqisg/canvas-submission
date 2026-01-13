@@ -5,22 +5,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Home() {
-  const URL = process.env.NEXT_PUBLIC_SERVER_URL;
-
-  const executeWorkflow = async () => {
-    try {
-      const response = await fetch(`${URL}/trigger-workflow`);
-      if (response.ok) {
-        console.log("Workflow executed");
-        console.log(response);
-      } else {
-        console.log("Workflow error");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const get_assignments = async () => {};
   return (
     <div className="min-h-screenBLIC_N8N_URL bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -162,6 +147,13 @@ export default function Home() {
               <thead className="[&_tr]:border-b">
                 <tr className="border-b transition-colors data-[state=selected]:bg-muted border-slate-700 hover:bg-slate-700/50">
                   <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Subject
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
+                    Id
+                  </th>
+
+                  <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
                     Name
                   </th>
                   <th className="h-12 px-4 text-left align-middle [&:has([role=checkbox])]:pr-0 text-slate-300 font-semibold">
@@ -189,6 +181,12 @@ export default function Home() {
               </thead>
               <tbody className="[&_tr:last-child]:border-0">
                 <tr className="border-b data-[state=selected]:bg-muted border-slate-700 transition-colors hover:bg-slate-700/30">
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
+                  <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
+                    Code Review
+                  </td>
                   <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium text-slate-100">
                     Code Review
                   </td>
@@ -266,10 +264,7 @@ export default function Home() {
         </div>
 
         <div className="flex items-center justify-between">
-          <button
-            onClick={executeWorkflow}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/20"
-          >
+          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/20">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
