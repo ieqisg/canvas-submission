@@ -6,6 +6,8 @@ from flask_cors import CORS
 import requests
 import os
 
+from pymongo import UpdateOne
+from bson import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask_pymongo import PyMongo
@@ -15,9 +17,11 @@ from datetime import datetime
 load_dotenv()
 
 CANVAS_TOKEN = os.getenv("NEXT_PUBLIC_CANVAS_TOKEN")
+CANVAS_URL = os.getenv("NEXT_PUBLIC_CANVAS_URL")
 PORT = os.getenv("PORT")
 uri = os.getenv("MONGODB_URI")
-CANVAS_URL = os.getenv("NEXT_PUBLIC_CANVAS_URL")
+
+
 
 headers_payload = {
         'Authorization': f"Bearer {CANVAS_TOKEN}" 
@@ -31,7 +35,7 @@ COURSES = {
     "uts": 107067,
     "math": 108132,
     "linear": 108103
-        }
+    }
 
 app = Flask(__name__)
 CORS(app)  # allow all origins, or configure specific ones
@@ -64,13 +68,15 @@ def clean_html(html):
     # get clean text
     return soup.get_text(separator=" ", strip=True)
 
-@app.route("/all-assignments", methods=['POST'])
+@app.route("/get-all-assignments", methods=['POST', 'GET'])
 def all_assignments():
+    bulk =[]
     try:
         for course_name, course_id in COURSES.items():
             response = requests.get(f"{CANVAS_URL}/{course_id}/assignments", headers=headers_payload)
             assignments = response.json()
-            formatted = [{
+            for assignment in assignments:
+                formatted = {
                 "course_name": course_name,
                 "course_id": assignment.get("course_id"),
                 "assignment_id": assignment.get("id"),
@@ -80,23 +86,24 @@ def all_assignments():
                 "due_at": assignment.get("due_at"),
                 "status": assignment.get("has_submitted_submissions"),
                 "type": assignment.get("submission_types")
-            
                 }
-                for assignment in assignments
-            ]  
-            if formatted:
-                collection.update_one(
-                    {},
-                    {"$push": {f"courses.{course_name}": {"$each": formatted}}},
-                    upsert=True
+                bulk.append(
+                    UpdateOne(
+                        {
+                            f"{course_name}.assignment_id": {"$ne": formatted["assignment_id"]}
+                        },
+                        {
+                            "$push": {f"{course_name}":  formatted}
+                        }
+                    )
                 )
+        if bulk:
+                collection.bulk_write(bulk)
        
         return "Data inserted on db"
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
 
 
 if __name__ == "__main__":

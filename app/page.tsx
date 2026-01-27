@@ -3,8 +3,20 @@
 import Image from "next/image";
 
 import React from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const URL = process.env.NEXT_PUBLIC_SERVER_URL;
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch(`${URL}/get-all-assignments`)
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, []);
+
+  console.log(items);
+
   const get_assignments = async () => {};
   return (
     <div className="min-h-screenBLIC_N8N_URL bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
