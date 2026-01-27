@@ -1,19 +1,22 @@
 #source venv/bin/activate
-
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from flask import Flask, jsonify, g
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 import os
 
-load_dotenv()
-app = Flask(__name__)
-CORS(app)  # allow all origins, or configure specific ones
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from flask_pymongo import PyMongo
+from pymongo.results import InsertManyResult
+from datetime import datetime
 
-# n8n webhook URL
+load_dotenv()
+
 CANVAS_TOKEN = os.getenv("NEXT_PUBLIC_CANVAS_TOKEN")
 PORT = os.getenv("PORT")
-
+uri = os.getenv("MONGODB_URI")
 CANVAS_URL = os.getenv("NEXT_PUBLIC_CANVAS_URL")
 
 headers_payload = {
@@ -30,38 +33,68 @@ COURSES = {
     "linear": 108103
         }
 
-@app.route("/test")
+app = Flask(__name__)
+CORS(app)  # allow all origins, or configure specific ones
+
+client = MongoClient(uri, server_api=ServerApi('1'))
+db = client['canvasdb']
+collection = db['canvas']
+
+
+'''
+@app.route("/test", methods=['POST'])
 def test():
-    
-    return "test" 
+    data = request.json
+    if not data:
+        return "No JSON received", 400
+    collection.insert_one(data)
+    return "test"
+'''
 
-    
 
-@app.route("/all-assignments")
+def clean_html(html):
+    if not html:
+        return ""
+    soup = BeautifulSoup(html, "html.parser")
+
+    # remove scripts and styles completely
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+
+    # get clean text
+    return soup.get_text(separator=" ", strip=True)
+
+@app.route("/all-assignments", methods=['POST'])
 def all_assignments():
-    assignments = []
-    assignments.clear()
-    assignments_sort = {}
-    for course_name, course_id in COURSES.items():
-        response = requests.get(f"{CANVAS_URL}/{course_id}/assignments", headers=headers_payload)
-        assignments.extend(response.json())
-    
-        formatted = [{
-            "course_id": assignment.get("course_id"),
-            "assignment_id": assignment.get("id"),
-            "name": assignment.get("name"),
-            "description": assignment.get("description"),
-            "created_at": assignment.get("created_at"),
-            "due_at": assignment.get("due_at"),
-            "status": assignment.get("has_submitted_submissions"),
-            "type": assignment.get("submission_types")
-        
-            }
-            for assignment in assignments
-        ]  
-        assignments_sort[course_name] = formatted
+    try:
+        for course_name, course_id in COURSES.items():
+            response = requests.get(f"{CANVAS_URL}/{course_id}/assignments", headers=headers_payload)
+            assignments = response.json()
+            formatted = [{
+                "course_name": course_name,
+                "course_id": assignment.get("course_id"),
+                "assignment_id": assignment.get("id"),
+                "name": assignment.get("name"),
+                "description": clean_html(assignment.get("description")),
+                "created_at": assignment.get("created_at"),
+                "due_at": assignment.get("due_at"),
+                "status": assignment.get("has_submitted_submissions"),
+                "type": assignment.get("submission_types")
+            
+                }
+                for assignment in assignments
+            ]  
+            if formatted:
+                collection.update_one(
+                    {},
+                    {"$push": {f"courses.{course_name}": {"$each": formatted}}},
+                    upsert=True
+                )
+       
+        return "Data inserted on db"
 
-    return assignments_sort
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 
